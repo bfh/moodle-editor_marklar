@@ -191,7 +191,8 @@ define([
             self.filepicker = filepicker.init(self.initparams.filepickeroptions);
             if (self.filepicker.canShowFilepicker("image")) {
                 str.get_string("insertimage", "editor_marklar").done(function(strinsertimage) {
-                    var button = $('<button class="btn btn-default" data-marklar-widget="insert-image" />');
+                    var button = $('<button class="btn btn-default insert-image btn-outline-secondary ms-1" ' +
+                        'data-marklar-widget="insert-image" />');
                     button.text(strinsertimage);
                     button.click(function(e) {
                         e.preventDefault();
@@ -205,7 +206,8 @@ define([
             }
             if (self.filepicker.canShowFilepicker("link")) {
                 str.get_string("insertlink", "editor_marklar").done(function(strinsertlink) {
-                    var button = $('<button class="btn btn-default" data-marklar-widget="insert-file" />');
+                    var button = $('<button class="btn btn-default insert-file btn-outline-secondary ms-1" ' +
+                        'data-marklar-widget="insert-file" />');
                     button.text(strinsertlink);
                     button.click(function(e) {
                         e.preventDefault();
@@ -240,10 +242,10 @@ define([
                 {key: 'previewon', component: 'editor_marklar'},
                 {key: 'previewoff', component: 'editor_marklar'}
         ]).then(function(strings) {
-            self.previewButtonOn = $('<button class="btn btn-default" data-marklar-widget="preview-on" />')
+            self.previewButtonOn = $('<button class="btn btn-default btn-outline-secondary" data-marklar-widget="preview-on" />')
                 .text(strings[0])
                 .on('click', self.previewOn.bind(self));
-            self.previewButtonOff = $('<button class="btn btn-default" data-marklar-widget="preview-off" >')
+            self.previewButtonOff = $('<button class="btn btn-default btn-outline-secondary" data-marklar-widget="preview-off" >')
                 .text(strings[1])
                 .on('click', self.previewOff.bind(self))
                 .hide();
@@ -387,10 +389,10 @@ define([
                 {key: 'syntaxon', component: 'editor_marklar'},
                 {key: 'syntaxoff', component: 'editor_marklar'},
         ]).then(function(strings) {
-            self.syntaxButtonOn = $('<button class="btn btn-link" data-marklar-widget="syntax-on" />')
+            self.syntaxButtonOn = $('<button class="btn btn-link btn-outline-secondary" data-marklar-widget="syntax-on" />')
                 .text(strings[0])
                 .on('click', self.syntaxOn.bind(self));
-            self.syntaxButtonOff = $('<button class="btn btn-link" data-marklar-widget="syntax-off" />')
+            self.syntaxButtonOff = $('<button class="btn btn-link btn-outline-secondary" data-marklar-widget="syntax-off" />')
                 .text(strings[1])
                 .on('click', self.syntaxOff.bind(self))
                 .hide();

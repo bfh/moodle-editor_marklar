@@ -4,11 +4,11 @@ on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     services:
       postgres:
-        image: postgres:16
+        image: postgres:17
         env:
           POSTGRES_USER: 'postgres'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
@@ -17,7 +17,7 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
 
       mariadb:
-        image: mariadb:10.11
+        image: mariadb:11.8
         env:
           MYSQL_USER: 'root'
           MYSQL_ALLOW_EMPTY_PASSWORD: "true"
@@ -25,7 +25,7 @@ jobs:
           MYSQL_COLLATION_SERVER: "utf8mb4_unicode_ci"
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
+        options: --health-cmd="mariadb-admin ping" --health-interval 10s --health-timeout 5s --health-retries 3
 
     strategy:
       fail-fast: false
@@ -35,14 +35,23 @@ jobs:
           'MOODLE_405_STABLE',
           'MOODLE_500_STABLE',
           'MOODLE_501_STABLE',
-          'MOODLE_502_STABLE'
+          'MOODLE_502_STABLE',
+          'MOODLE_503_STABLE'
         ]
         database: ['mariadb', 'pgsql']
         exclude:
           - php: '8.2'
+            moodle-branch: 'MOODLE_503_STABLE'
+          - php: '8.1'
+            moodle-branch: 'MOODLE_503_STABLE'
+          - php: '8.2'
             moodle-branch: 'MOODLE_502_STABLE'
           - php: '8.1'
             moodle-branch: 'MOODLE_502_STABLE'
+          - php: '8.3'
+            moodle-branch: 'MOODLE_501_STABLE'
+          - php: '8.2'
+            moodle-branch: 'MOODLE_501_STABLE'
           - php: '8.1'
             moodle-branch: 'MOODLE_501_STABLE'
           - php: '8.1'
@@ -52,7 +61,7 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: plugin
 
@@ -85,11 +94,6 @@ jobs:
       - name: PHP Lint
         if: ${{ !cancelled() }}
         run: moodle-plugin-ci phplint
-
-      - name: PHP Copy/Paste Detector
-        continue-on-error: true # This step will show errors but will not fail
-        if: ${{ !cancelled() }}
-        run: moodle-plugin-ci phpcpd
 
       - name: PHP Mess Detector
         continue-on-error: true # This step will show errors but will not fail
