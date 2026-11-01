@@ -1,3 +1,9 @@
+### 1.0.6 ###
+* Additions for CAMP Community Archive of Moodle Plugins
+
+### 1.0.5 ###
+* Moodle 4.5 - 5.3 marked as supported.
+
 ### 1.0.4 ###
 
 * Coding style fixed. Credit goes to Luca Bösch.
